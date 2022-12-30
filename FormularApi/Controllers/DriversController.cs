@@ -53,8 +53,8 @@ namespace FormularApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
+        public IActionResult DeleteDriver(int id)
+        {   
             var driver = _drivers.FirstOrDefault(x => x.Id == id);
 
             if (driver == null) return NotFound();
@@ -62,5 +62,20 @@ namespace FormularApi.Controllers
             _drivers.Remove(driver);
             return NoContent();
         }
+
+        [HttpPatch("{id}")]
+        public IActionResult UpdateDriver(Driver driver)
+        {
+            var exitstDriver = _drivers.FirstOrDefault(x=> x.Id == driver.Id);
+
+            if(exitstDriver == null) return NotFound();
+
+            exitstDriver.Name = driver.Name;
+            exitstDriver.Team = driver.Team;
+            exitstDriver.DriverNumber = driver.DriverNumber;
+
+            return NoContent();
+        }
+
     }
 }
