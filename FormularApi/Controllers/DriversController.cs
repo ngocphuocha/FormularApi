@@ -1,6 +1,8 @@
 ﻿
+using FormularApi.Data;
 using FormularApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FormularApi.Controllers
 {
@@ -8,65 +10,54 @@ namespace FormularApi.Controllers
     [ApiController]
     public class DriversController : ControllerBase
     {
-        private static List<Driver> _drivers = new List<Driver>()
+        private readonly ApiDbContext _context;
+
+        public DriversController(ApiDbContext context)
         {
-            new Driver()
-            {
-                Id = 1,
-                Name = "phuoc",
-                Team = "Mescedes",
-                DriverNumber = 44,
-            },
-            new Driver()
-            {
-                Id = 2,
-                Name = "Phuoc 2",
-                Team = "Lamboghini",
-                DriverNumber = 30
-            },
-             new Driver()
-             {
-                Id = 3,
-                Name = "Phuoc 3",
-                Team = "Ferarri",
-                DriverNumber = 99
-             }
-        };
+            _context = context; 
+        }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok(_drivers);
+            return Ok(await _context.Drivers.ToListAsync());
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            return Ok(_drivers.FirstOrDefault(x => x.Id == id));
-        }
-
-        [HttpPost]
-        public IActionResult AddDriver(Driver driver)
-        {
-            _drivers.Add(driver);
-            return Ok(_drivers);
-        }
-
-        [HttpDelete("{id}")]
-        public IActionResult DeleteDriver(int id)
-        {   
-            var driver = _drivers.FirstOrDefault(x => x.Id == id);
+            var driver = await _context.Drivers.FirstOrDefaultAsync(x => x.Id == id);
 
             if (driver == null) return NotFound();
 
-            _drivers.Remove(driver);
+            return Ok(driver);
+        }
+
+        [HttpPost] 
+        public async Task<IActionResult> AddDriver(Driver driver)
+        {
+           _context.Drivers.Add(driver);
+           await _context.SaveChangesAsync();
+
+           return Ok(await _context.Drivers.ToListAsync());
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDriver(int id)
+        {
+            var driver = await _context.Drivers.FirstOrDefaultAsync(x => x.Id == id);
+            if (driver == null) return NotFound();
+
+            _context.Drivers.Remove(driver);
+
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 
         [HttpPatch("{id}")]
-        public IActionResult UpdateDriver(Driver driver)
+        public async Task<IActionResult> UpdateDriver(int id, Driver driver)
         {
-            var exitstDriver = _drivers.FirstOrDefault(x=> x.Id == driver.Id);
+            var exitstDriver = await _context.Drivers.FirstOrDefaultAsync(x => x.Id == id);
 
             if(exitstDriver == null) return NotFound();
 
@@ -74,8 +65,9 @@ namespace FormularApi.Controllers
             exitstDriver.Team = driver.Team;
             exitstDriver.DriverNumber = driver.DriverNumber;
 
+            await _context.SaveChangesAsync();
+                
             return NoContent();
-        }
-
+        } 
     }
 }
