@@ -1,4 +1,5 @@
 ﻿
+using FormularApi.Core;
 using FormularApi.Data;
 using FormularApi.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -11,22 +12,23 @@ namespace FormularApi.Controllers
     public class DriversController : ControllerBase
     {
         private readonly ApiDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DriversController(ApiDbContext context)
+        public DriversController(IUnitOfWork unitOfWork)
         {
-            _context = context; 
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _context.Drivers.ToListAsync());
+            return Ok(await _unitOfWork.Drivers.All());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var driver = await _context.Drivers.FirstOrDefaultAsync(x => x.Id == id);
+            var driver = await _unitOfWork.Drivers.GetById(id);
 
             if (driver == null) return NotFound();
 
@@ -36,37 +38,32 @@ namespace FormularApi.Controllers
         [HttpPost] 
         public async Task<IActionResult> AddDriver(Driver driver)
         {
-           _context.Drivers.Add(driver);
-           await _context.SaveChangesAsync();
-
-           return Ok(await _context.Drivers.ToListAsync());
+           _unitOfWork.Drivers.Add(driver);
+           await _unitOfWork.CompleteAsync();
+           return Ok();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDriver(int id)
         {
-            var driver = await _context.Drivers.FirstOrDefaultAsync(x => x.Id == id);
+            var driver = await _unitOfWork.Drivers.GetById(id);
             if (driver == null) return NotFound();
 
-            _context.Drivers.Remove(driver);
+            _unitOfWork.Drivers.Delete(driver);
 
-            await _context.SaveChangesAsync();
+            await _unitOfWork.CompleteAsync();
             return NoContent();
         }
 
         [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateDriver(int id, Driver driver)
         {
-            var exitstDriver = await _context.Drivers.FirstOrDefaultAsync(x => x.Id == id);
+            var existDriver = await _unitOfWork.Drivers.GetById(id);
 
-            if(exitstDriver == null) return NotFound();
+            if(existDriver == null) return NotFound();
 
-            exitstDriver.Name = driver.Name;
-            exitstDriver.Team = driver.Team;
-            exitstDriver.DriverNumber = driver.DriverNumber;
-
-            await _context.SaveChangesAsync();
-                
+            _unitOfWork.Drivers.Update(driver);
+            await _unitOfWork.CompleteAsync(); 
             return NoContent();
         } 
     }
