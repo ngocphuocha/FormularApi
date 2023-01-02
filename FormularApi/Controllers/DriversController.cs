@@ -11,7 +11,6 @@ namespace FormularApi.Controllers
     [ApiController]
     public class DriversController : ControllerBase
     {
-        private readonly ApiDbContext _context;
         private readonly IUnitOfWork _unitOfWork;
 
         public DriversController(IUnitOfWork unitOfWork)
@@ -38,7 +37,7 @@ namespace FormularApi.Controllers
         [HttpPost] 
         public async Task<IActionResult> AddDriver(Driver driver)
         {
-           _unitOfWork.Drivers.Add(driver);
+           await _unitOfWork.Drivers.Add(driver);
            await _unitOfWork.CompleteAsync();
            return Ok();
         }
@@ -49,7 +48,7 @@ namespace FormularApi.Controllers
             var driver = await _unitOfWork.Drivers.GetById(id);
             if (driver == null) return NotFound();
 
-            _unitOfWork.Drivers.Delete(driver);
+            await _unitOfWork.Drivers.Delete(driver);
 
             await _unitOfWork.CompleteAsync();
             return NoContent();
@@ -62,7 +61,7 @@ namespace FormularApi.Controllers
 
             if(existDriver == null) return NotFound();
 
-            _unitOfWork.Drivers.Update(driver);
+            await _unitOfWork.Drivers.Update(driver);
             await _unitOfWork.CompleteAsync(); 
             return NoContent();
         } 
