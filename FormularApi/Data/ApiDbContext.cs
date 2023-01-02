@@ -8,6 +8,7 @@ namespace FormularApi.Data
         public DbSet<Driver> Drivers { get; set; }
         public ApiDbContext(DbContextOptions<ApiDbContext> options) : base(options) 
         {
+            
         }
     }
 }
