@@ -20,8 +20,8 @@ public class DriverRepository : GenericRepository<Driver>, IDriverRepository
         } 
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            _logger.LogError(e, "{Repo} All method error", typeof(DriverRepository));
+            return new List<Driver>();
         } 
     }
     public override async Task<Driver?> GetById(int id)
@@ -34,8 +34,8 @@ public class DriverRepository : GenericRepository<Driver>, IDriverRepository
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            _logger.LogError(e, "{Repo} Get driver by id error", typeof(DriverRepository));
+            return null;
         } 
     }
     

@@ -8,7 +8,9 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     private readonly ApiDbContext _context;
     private readonly ILogger _logger;
     public IDriverRepository Drivers { get; private set; }
+    public IBookingRepository Booking { get; private set; }
 
+  
     public UnitOfWork(
         ApiDbContext context,
         ILoggerFactory loggerFactory
@@ -18,6 +20,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         var _logger = loggerFactory.CreateLogger("logs");
 
         Drivers = new DriverRepository(_context, _logger);
+        Booking = new BookingRepository(_context, _logger); 
     }
 
     public async Task CompleteAsync()

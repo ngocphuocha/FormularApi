@@ -6,6 +6,7 @@ namespace FormularApi.Data
     public class ApiDbContext : DbContext
     {
         public DbSet<Driver> Drivers { get; set; }
+        public DbSet<Booking> Books { get; set; }
         public ApiDbContext(DbContextOptions<ApiDbContext> options) : base(options) 
         {
             
