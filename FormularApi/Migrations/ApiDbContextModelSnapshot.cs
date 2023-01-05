@@ -22,10 +22,6 @@ namespace FormularApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("CurrentAddress")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -33,6 +29,10 @@ namespace FormularApi.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("TargetAddress")

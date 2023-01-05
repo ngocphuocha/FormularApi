@@ -1,9 +1,11 @@
 ﻿using FormularApi.Core;
 using FormularApi.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FormularApi.Controllers
 {
+    [EnableCors("GrabBookingPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class BookingsController : ControllerBase

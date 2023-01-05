@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace FormularApi.Models
 {
@@ -10,7 +11,9 @@ namespace FormularApi.Models
         public string Name { get; set; }
         [Required]
         public string CurrentAddress { get; set; }
-        public string Address { get; set; }
+        [Required]
+        public string Phone { get; set; }
+        [Required]
         public string TargetAddress {get; set;}
     }
 }
