@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FormularApi.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20230104151937_InitCreate")]
-    partial class InitCreate
+    [Migration("20230105062606_InitCreated")]
+    partial class InitCreated
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,7 +44,7 @@ namespace FormularApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Books");
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("FormularApi.Models.Driver", b =>
