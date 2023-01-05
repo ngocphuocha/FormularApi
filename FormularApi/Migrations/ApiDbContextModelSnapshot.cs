@@ -41,7 +41,7 @@ namespace FormularApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Books");
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("FormularApi.Models.Driver", b =>

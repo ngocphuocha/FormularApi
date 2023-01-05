@@ -2,7 +2,7 @@ namespace FormularApi.Core;
 
 public interface IUnitOfWork
 {
-    IBookingRepository Booking { get; }
+    IBookingRepository Bookings { get; }
     IDriverRepository Drivers { get; }
    
     Task CompleteAsync();

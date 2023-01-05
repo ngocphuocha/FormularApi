@@ -5,13 +5,14 @@
 namespace FormularApi.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+
+    public partial class InitCreated : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Books",
+                name: "Bookings",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -23,7 +24,7 @@ namespace FormularApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Books", x => x.Id);
+                    table.PrimaryKey("PK_Bookings", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -46,7 +47,7 @@ namespace FormularApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Books");
+                name: "Bookings");
 
             migrationBuilder.DropTable(
                 name: "Drivers");

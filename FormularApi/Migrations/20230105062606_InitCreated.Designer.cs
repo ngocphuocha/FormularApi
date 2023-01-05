@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FormularApi.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20230104163254_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230105062606_InitCreated")]
+    partial class InitCreated
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,10 @@ namespace FormularApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("CurrentAddress")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -34,17 +38,13 @@ namespace FormularApi.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("TargetAddress")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Books");
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("FormularApi.Models.Driver", b =>

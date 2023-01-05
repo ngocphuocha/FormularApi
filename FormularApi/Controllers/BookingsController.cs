@@ -20,13 +20,18 @@ namespace FormularApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _unitOfWork.Booking.All());
+            return Ok(await _unitOfWork.Bookings.All());
+        }
+        [HttpGet("/target-location")]
+        public async Task<IActionResult> GetTripByTargetLocation(string targetLocation)
+        {
+            return Ok(await _unitOfWork.Bookings.GetBookingByTargetLocation(targetLocation));
         }
 
         [HttpPost]
         public async Task<IActionResult> AddBooking(Booking booking)
         {
-            await _unitOfWork.Booking.AddNewBooking(booking);
+            await _unitOfWork.Bookings.AddNewBooking(booking);
             await _unitOfWork.CompleteAsync();
             return Ok(booking);
         }
