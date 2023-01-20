@@ -5,7 +5,6 @@
 namespace FormularApi.Migrations
 {
     /// <inheritdoc />
-
     public partial class InitCreated : Migration
     {
         /// <inheritdoc />
