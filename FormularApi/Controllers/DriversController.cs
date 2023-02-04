@@ -64,6 +64,16 @@ namespace FormularApi.Controllers
             await _unitOfWork.Drivers.Update(driver);
             await _unitOfWork.CompleteAsync(); 
             return NoContent();
-        } 
+        }
+
+        [HttpGet("/api/drivers/getbyname")]
+        public async Task<IActionResult> GetByDriverNumber(string teamName)
+        {
+            var existDriver = await _unitOfWork.Drivers.GetDriverByTeamName(teamName);
+
+            if (existDriver == null) return NotFound();
+
+            return Ok(existDriver);
+        }
     }
 }

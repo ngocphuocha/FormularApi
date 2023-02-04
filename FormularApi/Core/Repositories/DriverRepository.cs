@@ -49,8 +49,22 @@ public class DriverRepository : GenericRepository<Driver>, IDriverRepository
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            _logger.LogError(e, "{Repo} Get driver by number phone error", typeof(DriverRepository));
+            return null;
         } 
+    }
+
+    public async Task<Driver?> GetDriverByTeamName(string teamName)
+    {
+        try
+        {
+            return await _context.Drivers.Where(d => d.Name.Contains(teamName))
+                                          .FirstOrDefaultAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "{Repo} Get driver by team name error", typeof(DriverRepository));
+            return null;
+        }
     }
 }

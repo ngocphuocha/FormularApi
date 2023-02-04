@@ -5,4 +5,6 @@ namespace FormularApi.Core;
 public interface IDriverRepository: IGenericRepository<Driver>
 {
     Task<Driver?> GetByDriverNumber(int driverNumber);
+    Task<Driver?> GetDriverByTeamName(string teamName);
 }
+

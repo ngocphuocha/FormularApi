@@ -14,6 +14,6 @@ namespace FormularApi.Models
         [Required]
         public string Phone { get; set; }
         [Required]
-        public string TargetAddress {get; set;}
+        public string TargetAddress { get; set; }
     }
 }
